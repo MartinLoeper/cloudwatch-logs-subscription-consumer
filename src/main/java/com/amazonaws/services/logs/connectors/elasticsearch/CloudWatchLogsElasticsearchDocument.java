@@ -16,11 +16,11 @@ package com.amazonaws.services.logs.connectors.elasticsearch;
 
 import java.util.Map;
 
-import org.elasticsearch.common.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.amazonaws.services.logs.subscriptions.CloudWatchLogsEvent;
-import com.amazonaws.util.json.JSONException;
-import com.amazonaws.util.json.JSONObject;
 
 /**
  * Defines the log event structure that would be sent to Elasticsearch.

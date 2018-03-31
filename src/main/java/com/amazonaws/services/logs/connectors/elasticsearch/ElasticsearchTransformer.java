@@ -21,11 +21,11 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONException;
 
 import com.amazonaws.services.kinesis.connectors.elasticsearch.ElasticsearchObject;
 import com.amazonaws.services.logs.subscriptions.CloudWatchLogsEvent;
 import com.amazonaws.services.logs.subscriptions.CloudWatchLogsSubscriptionTransformer;
-import com.amazonaws.util.json.JSONException;
 
 /**
  * Transforms CloudWatchLogsEvent records to ElasticsearchObject records.
