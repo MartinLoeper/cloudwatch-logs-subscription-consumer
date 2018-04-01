@@ -43,6 +43,8 @@ public class ElasticsearchTransformer extends CloudWatchLogsSubscriptionTransfor
     public ElasticsearchObject fromClass(CloudWatchLogsEvent record) throws IOException {
 
         try {
+        	System.out.println("Received: " + record.toString());
+
             // convert the log event to an Elasticsearch document
             CloudWatchLogsElasticsearchDocument document = new CloudWatchLogsElasticsearchDocument(record);
 
