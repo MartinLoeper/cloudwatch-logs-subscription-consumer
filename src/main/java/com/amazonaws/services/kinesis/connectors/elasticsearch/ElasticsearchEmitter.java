@@ -153,8 +153,10 @@ public class ElasticsearchEmitter implements IEmitter<ElasticsearchObject> {
      */
     @Override
     public List<ElasticsearchObject> emit(UnmodifiableBuffer<ElasticsearchObject> buffer) throws IOException {
+    	System.out.println("Doing bulk insert");
         List<ElasticsearchObject> records = buffer.getRecords();
         if (records.isEmpty()) {
+        	System.err.println("Empty!");
             return Collections.emptyList();
         }
 
@@ -198,19 +200,21 @@ public class ElasticsearchEmitter implements IEmitter<ElasticsearchObject> {
                         }
                     }
                 }
-                LOG.info("Emitted " + (records.size() - failures.size() - numberOfSkippedRecords)
+                System.out.println("Emitted " + (records.size() - failures.size() - numberOfSkippedRecords)
                         + " records to Elasticsearch");
                 if (!failures.isEmpty()) {
                     printClusterStatus();
-                    LOG.warn("Returning " + failures.size() + " records as failed");
+                    System.err.println("Returning " + failures.size() + " records as failed");
                 }
                 return failures;
             } catch (NoNodeAvailableException nnae) {
-                LOG.error("No nodes found at " + elasticsearchEndpoint + ":" + elasticsearchPort + ". Retrying in "
-                        + BACKOFF_PERIOD + " milliseconds", nnae);
+            	System.err.println("No nodes found at " + elasticsearchEndpoint + ":" + elasticsearchPort + ". Retrying in "
+                        + BACKOFF_PERIOD + " milliseconds");
+            	nnae.printStackTrace();
                 sleep(BACKOFF_PERIOD);
             } catch (Exception e) {
-                LOG.error("ElasticsearchEmitter threw an unexpected exception ", e);
+            	System.err.println("ElasticsearchEmitter threw an unexpected exception ");
+            	e.printStackTrace();
                 sleep(BACKOFF_PERIOD);
             }
         }
