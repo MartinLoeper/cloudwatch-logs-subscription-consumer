@@ -14,7 +14,12 @@
  */
 package com.amazonaws.services.logs.connectors.elasticsearch;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -43,7 +48,7 @@ public class CloudWatchLogsElasticsearchDocument {
         JSONObject json = getFields(event.getMessage(), event.getExtractedFields());
         json.put("@id", event.getId());
 
-        json.put("@timestamp", event.getTimestamp());
+        json.put("@timestamp", getISO8601StringForDate(new Date(event.getTimestamp())));
         json.put("@message", event.getMessage());
         json.put("@owner", event.getOwner());
         json.put("@log_group", event.getLogGroup());
@@ -58,6 +63,12 @@ public class CloudWatchLogsElasticsearchDocument {
         this.logGroup = event.getLogGroup();
         this.logStream = event.getLogStream();
     }
+
+    private static String getISO8601StringForDate(Date date) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+		dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+		return dateFormat.format(date);
+	}
 
     /**
      * Determines which additional fields get put into the Elasticsearch document.

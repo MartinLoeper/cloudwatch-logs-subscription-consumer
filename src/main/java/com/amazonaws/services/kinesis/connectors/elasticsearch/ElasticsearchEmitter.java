@@ -161,13 +161,6 @@ public class ElasticsearchEmitter implements IEmitter<ElasticsearchObject> {
 
         BulkRequestBuilder bulkRequest = elasticsearchClient.prepareBulk();
         for (ElasticsearchObject record : records) {
-        	if(!elasticsearchClient.admin().indices().prepareExists(record.getIndex()).get().isExists()) {
-        		// set the timestamp type mapping
-            	elasticsearchClient.admin().indices().prepareCreate(record.getIndex())
-            			.addMapping(record.getType(), "type=date,format=epoch_millis").get();
-        	}
-
-
             IndexRequestBuilder indexRequestBuilder =
                     elasticsearchClient.prepareIndex(record.getIndex(), record.getType(), record.getId());
 
