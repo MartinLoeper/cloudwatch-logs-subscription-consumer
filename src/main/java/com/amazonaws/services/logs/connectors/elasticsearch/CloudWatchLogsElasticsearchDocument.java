@@ -48,7 +48,7 @@ public class CloudWatchLogsElasticsearchDocument {
         JSONObject json = getFields(event.getMessage(), event.getExtractedFields());
         json.put("@id", event.getId());
 
-        json.put("@timestamp", event.getTimestamp());
+        json.put("@timestamp", getISO8601StringForDate(new Date(event.getTimestamp())));
         json.put("@message", event.getMessage());
         json.put("@owner", event.getOwner());
         json.put("@log_group", event.getLogGroup());
