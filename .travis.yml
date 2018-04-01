@@ -17,3 +17,10 @@ before_install:
 - echo "export MAVEN_OPTS='-Dmaven.repo.local=$HOME/.m2/repository -Xmx2g'" > ~/.mavenrc
 install: true
 script: mvn clean package
+deploy:
+  provider: releases
+  api_key:
+    secure: HbGr0p231CaDMght63oz31IhevS6Mv0z1JTMln3FHJWj7EHZcS5q+QkFthpMZkNbTRaSnsxhBRrN5Ve4lp8av0Mio4mdOMpdr8oHfWDvRPwa6X/oG/c1k6s4glXLYD8h1c+iI/K7mf3cVj0RvyWTW9yP0bQUfd/kMm1NyOLKBjH5RllwHGHBpu1Y8tOhn7IxhQzFr7Hd2NE6AZFKEKUAPJ27/SmOtMj2MCHhLnbwLatNx8U1i8pxJEZu8TSvTXxM+5Ik5Tl9NWQ8BXWO0rYTUgO+wMJT+8HV8GUKK+EiZZgpoQJ6dd+9Woo4JbB43MJTeFmdC14my6COGyNOis9//9KAxGjD7GBrJkvLVL/oKj+FtRQlRJikHyOojpU6Lowb/VTAhDui/Op+AC+UvpT4oFIPknzftFVlVjUpKbbNJHsCSFcCR3Nh/in7wgL5MnzfsGCX5SHZwLm/Z7vOC5L6FiKScAd1yuQKHrmmvUsA5Y2ZkdRVGaNYAnYtw0ZSfvUgW3uV8aVcbN00RuAtPFi/OFT89RZQpDivDHyZK1jfes4GS03nZRcP5Q5mLxd44nJAkZG8XQQklsxx2tKveX39CN4ORJEFUrfOaiuS+OvfyFFYDEHzlGcrCwncnDr36IltmslJpgtETwc2IkPDCjfANjWXPCTy6kj3SIERBKAZUJo=
+  file: target/cloudwatch-logs-subscription-consumer-2.0.5-cfn.zip
+  on:
+    repo: MartinLoeper/cloudwatch-logs-subscription-consumer
