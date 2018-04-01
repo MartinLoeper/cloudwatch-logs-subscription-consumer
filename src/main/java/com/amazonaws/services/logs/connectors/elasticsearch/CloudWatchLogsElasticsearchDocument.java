@@ -64,9 +64,13 @@ public class CloudWatchLogsElasticsearchDocument {
         this.logStream = event.getLogStream();
     }
 
-    private static String getISO8601StringForDate(Date date) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-		dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+
+    {
+    	dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+    }
+
+    private String getISO8601StringForDate(Date date) {
 		return dateFormat.format(date);
 	}
 
