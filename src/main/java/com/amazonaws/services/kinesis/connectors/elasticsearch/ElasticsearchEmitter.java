@@ -25,6 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequestBuilder;
 import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse.Failure;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -160,6 +161,17 @@ public class ElasticsearchEmitter implements IEmitter<ElasticsearchObject> {
 
         BulkRequestBuilder bulkRequest = elasticsearchClient.prepareBulk();
         for (ElasticsearchObject record : records) {
+        	if(!elasticsearchClient.admin().indices().prepareExists(record.getIndex()).get().isExists()) {
+        		// set the timestamp type mapping
+            	elasticsearchClient.admin().indices().prepareCreate(record.getIndex())
+            			.addMapping("{\n" +
+            							"\"properties\" : {\n" +
+				                			"\"@timestamp\" : { \"type\" : \"date\", \"format\": \"epoch_millis\" }\n" +
+				                		"}\n" +
+            						"}").get();
+        	}
+
+
             IndexRequestBuilder indexRequestBuilder =
                     elasticsearchClient.prepareIndex(record.getIndex(), record.getType(), record.getId());
 

@@ -42,6 +42,7 @@ public class CloudWatchLogsElasticsearchDocument {
     public CloudWatchLogsElasticsearchDocument(CloudWatchLogsEvent event) throws JSONException {
         JSONObject json = getFields(event.getMessage(), event.getExtractedFields());
         json.put("@id", event.getId());
+
         json.put("@timestamp", event.getTimestamp());
         json.put("@message", event.getMessage());
         json.put("@owner", event.getOwner());
