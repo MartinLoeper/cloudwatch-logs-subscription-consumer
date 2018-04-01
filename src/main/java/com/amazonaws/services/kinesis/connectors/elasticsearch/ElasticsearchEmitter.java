@@ -164,11 +164,7 @@ public class ElasticsearchEmitter implements IEmitter<ElasticsearchObject> {
         	if(!elasticsearchClient.admin().indices().prepareExists(record.getIndex()).get().isExists()) {
         		// set the timestamp type mapping
             	elasticsearchClient.admin().indices().prepareCreate(record.getIndex())
-            			.addMapping("\"" + record.getType() + "\": {\n" +
-            							"\"properties\" : {\n" +
-				                			"\"@timestamp\" : { \"type\" : \"date\", \"format\": \"epoch_millis\" }\n" +
-				                		"}\n" +
-            						"}").get();
+            			.addMapping(record.getType(), "type=date,format=epoch_millis").get();
         	}
 
 
